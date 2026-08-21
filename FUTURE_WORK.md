@@ -137,6 +137,44 @@ The remote workstation (RTX 5000 Ada 32 GB, Threadripper Pro 7985WX,
 512 GB RAM) is already picked up by the existing cuda-first device
 selection.
 
+## 9. Newer satellite imagery — confirm the sensor, then decide
+
+`100_Data/140_SAR_Imagery/<2026 delivery>/` (remote machine only; the
+local folder is an empty stub) holds a delivery received May 2026 that
+mentors describe as PNEO stereo from the imagery vendor. The
+folder name records the **purchase** year, not the acquisition year,
+and its three products do not all match that description:
+
+| Subfolder | Product prefix | Acquired |
+|---|---|---|
+| `<product A folder>` | `<product A prefix>` | 2026-01-01 |
+| `<product B folder>` | `<product B prefix>` | 2023-04-03 |
+| `<product C folder>` | `<product C prefix>` | 2023-04-03 |
+
+Two of the three are WorldView-1 — a Maxar sensor at the same
+resolution class as the GeoEye/WV2 pairs the current DEMs already came
+from, so not an upgrade. Only product A is recent enough to be the new
+delivery, and product A is **not** a sensor code identifiable from a
+directory listing. Each product ships its own `README.TXT`/`.XML`/
+`.IMD` alongside; read those first — they state sensor and product type
+outright, and settle this in minutes.
+
+**If product A is Pléiades Neo** (~30 cm pan), a DEM regeneration could
+sharpen the ray-casting surface. `<DEM processing notes>` has the full recipe
+(Ames Stereo Pipeline: `parallel_stereo` -> `point2dem` ->
+`dem_mosaic`), so the path is known rather than exploratory. It is
+still a multi-day run on the remote box, and it **replaces the surface
+every published result stands on** — so it needs the regression
+baseline re-frozen and the `r.viewshed` comparison re-run, not just a
+file swap.
+
+**It does not help with openings.** Both products are near-nadir, and
+a wall face is edge-on from overhead: a door is close to invisible from
+directly above at any resolution. That is geometry, not sharpness. The
+finding that imagery cannot supply apertures stands regardless of what
+this delivery turns out to be — worth stating plainly to mentors, since
+the expectation seems to be otherwise.
+
 ---
 
 ## Not on this list, deliberately

@@ -377,8 +377,8 @@ class HeightfieldScene:
             t_y = np.where(uy > 0, (y_hi - ey) / uy,
                            np.where(uy < 0, (y_lo - ey) / uy, np.inf))
         d_stop = np.clip(np.minimum(t_x, t_y), 0.0, None)
-        # This project's nodata sentinel is a huge negative number (see
-        # the project guide), so a plain .max() already ignores it in the normal
+        # This project's nodata sentinel is a huge negative number
+        # (-1e6), so a plain .max() already ignores it in the normal
         # case. The explicit re-derive below only matters if the whole
         # array were nodata (then .max() *is* the sentinel) or a
         # differently-signed DEM were ever loaded here.

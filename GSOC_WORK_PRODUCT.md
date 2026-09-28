@@ -416,9 +416,10 @@ uv pip install --python .venv -r requirements.txt
 
 The ~200 GB dataset is not in this repository. A working subset lives
 under `LAMP_DataStore/ElBagawat/` (gitignored); the layout it mirrors is
-documented in [`the project guide`](the project guide), and
-[`docs/REMOTE_SETUP.md`](docs/REMOTE_SETUP.md) is a clone-to-running
-walkthrough for the CUDA workstation.
+defined by the path constants at the top of
+[`scripts/sanity_checks.py`](scripts/sanity_checks.py), which reports any
+input that is missing, and [`docs/REMOTE_SETUP.md`](docs/REMOTE_SETUP.md)
+is a clone-to-running walkthrough for the CUDA workstation.
 
 - [`README.md`](README.md) — flag reference for all 39 scripts
 - [`docs/CODE_WALKTHROUGH.md`](docs/CODE_WALKTHROUGH.md) — narrated

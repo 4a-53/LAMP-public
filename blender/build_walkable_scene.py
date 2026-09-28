@@ -35,8 +35,8 @@ from pathlib import Path
 import bpy
 from mathutils import Vector
 
-SCENE_DIR = Path("LAMP_DataStore/"
-                 "ElBagawat/200_Projects/260_WalkableScene")
+SCENE_DIR = (Path(__file__).resolve().parents[1] / "LAMP_DataStore"
+             / "ElBagawat" / "200_Projects" / "260_WalkableScene")
 OUT_BLEND = SCENE_DIR / "bagawat_walkable.blend"
 
 # Kharga sits at ~25.4 N; a mid-morning sun gives raking light that

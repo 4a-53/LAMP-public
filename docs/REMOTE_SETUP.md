@@ -4,8 +4,9 @@ Clone-to-full-pipeline guide for the remote Windows/CUDA workstation. Follow
 this top to bottom on a fresh machine and every script in
 [README.md](../README.md)'s pipeline should run end-to-end with no
 surprises. For *why* the code is built the way it is, see
-[docs/CODE_WALKTHROUGH.md](CODE_WALKTHROUGH.md); for project scope and data
-conventions, see [the project guide](../the project guide).
+[docs/CODE_WALKTHROUGH.md](CODE_WALKTHROUGH.md); for project scope, see
+[GSOC_WORK_PRODUCT.md](../GSOC_WORK_PRODUCT.md); for data conventions, see
+[README.md](../README.md#key-conventions)'s Key conventions.
 
 ## Quick path (if nothing goes wrong)
 
@@ -31,8 +32,7 @@ likely fix.
 ## 1. Before you start
 
 You'll need, on the remote machine already:
-- **Windows**, reachable via RealVNC (per [the project guide](../the project guide)'s
-  Environment section).
+- **Windows**, reachable via RealVNC.
 - **An up-to-date NVIDIA driver** for the RTX GPU. You don't need the CUDA
   Toolkit installed separately — modern PyTorch wheels bundle the CUDA
   runtime themselves — but you do need a driver new enough to support the
@@ -43,7 +43,8 @@ You'll need, on the remote machine already:
 - Access to the full ElBagawat datastore (~200 GB) somewhere on this
   machine's disks — this guide assumes it already exists at some path (call
   it `D:\path\to\datastore-root`, containing an `ElBagawat\` folder) and just
-  needs linking into the repo, per the "Data assets" section of the project guide.
+  needs linking into the repo, as described in
+  [§2](#2-clone-and-link-the-datastore).
   With 21.83 TB of storage on this workstation, keeping the full datastore
   local (rather than a subset) is the point of using this machine at all —
   in particular `100_Data/140_SAR_Imagery/` (the bulk of the dataset) is
@@ -152,9 +153,9 @@ for it actually resolving `cu124` wheels rather than falling back to a
 generic one.
 
 **CuPy is present but currently unused.** `requirements.txt` also installs
-`cupy-cuda12x` behind a Windows-only marker — the project guide documents CuPy as
-the project's general NumPy-on-GPU convention for future array code, but as
-of this writing no script in `scripts/` actually imports it (everything
+`cupy-cuda12x` behind a Windows-only marker, for future NumPy-on-GPU array
+code (`try: import cupy as xp` / `except ImportError: import numpy as xp`),
+but as of this writing no script in `scripts/` actually imports it (everything
 GPU-bound today goes through torch). Nothing to configure here; it's just
 available if a future script needs it.
 
@@ -169,7 +170,7 @@ catch a bad datastore link, a CRS mismatch, or a stale legacy DEM before
 anything else runs. `[WARN]` lines are expected and informational (e.g. the
 legacy `<legacy DEM with buildings>.tif` datum-mismatch warning, and the viewpoints file's
 CRS being lat/lon rather than UTM — both already understood and explained in
-[CODE_WALKTHROUGH.md §1](CODE_WALKTHROUGH.md#1-sanity_checksspy--the-data-contract)).
+[CODE_WALKTHROUGH.md §1](CODE_WALKTHROUGH.md#1-sanity_checkspy--the-data-contract)).
 `[FAIL]` lines mean stop and fix the datastore link or file paths before
 proceeding.
 
@@ -210,7 +211,7 @@ output — that line is your confirmation this run actually used the GPU, not
 a silent CPU fallback. With this workstation's hardware, expect the
 ray-casting steps to be noticeably faster than on the Mac (MPS) they were
 developed against; nothing in the code needs adjusting for that, by design
-(see the device-agnostic convention in the project guide and
+(see
 [CODE_WALKTHROUGH.md §4.4](CODE_WALKTHROUGH.md#44-device-agnostic--and-the-two-mps-gotchas)).
 Every script still exits nonzero and prints a `FAILURES (n):` block if any
 self-check fails — treat that as a stop sign, not a warning.
@@ -258,7 +259,7 @@ to this repo; both docs assume the bundle in step 7 above already exists.
   copy them off afterward.
 - **`SAR_Imagery` / other-contributor data.** `100_Data/140_SAR_Imagery/` is
   the other contributor's input (multispectral/stereo imagery for
-  path-analysis) and, per the project guide, is explicitly **not** a height source
+  path-analysis) and is explicitly **not** a height source
   for anything in this half of the project — no script here reads it. Its
   presence on this machine is about keeping the full ~200 GB dataset in one
   place, not something this pipeline needs.

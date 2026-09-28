@@ -20,7 +20,8 @@ phase and is mentor-dependent, so it has its own lead time.
 
 Once it lands: regenerate the viewsheds, the visibility graph and the
 comparison at full scale, and replicate the shapefile to the remote
-datastore per the note in the the project guide data table.
+datastore — the observer-marks folder exists only in the local copy so
+far.
 
 **Also unresolved:** the 2026-08-08 run reported 1,052 building-observer
 pairs (263 × 4) where the current one produces 789 (263 × 3). A fourth

@@ -1,10 +1,12 @@
 # El Bagawat Viewshed Engine — Usage
 
 Practical "how to run this" reference for the viewshed/visibility half of LAMP
-(GSoC 2026, HumanAI). For project scope, thesis, and data-asset details see
-[the project guide](the project guide); for *why* the engine is built the way it is, see
-[docs/CODE_WALKTHROUGH.md](docs/CODE_WALKTHROUGH.md). This document is the
-flag reference neither of those cover.
+(GSoC 2026, HumanAI). For project scope, thesis and findings see
+[GSOC_WORK_PRODUCT.md](GSOC_WORK_PRODUCT.md); for *why* the engine is built
+the way it is, see [docs/CODE_WALKTHROUGH.md](docs/CODE_WALKTHROUGH.md). The
+input files each script expects are defined by the path constants at the top
+of [`scripts/sanity_checks.py`](scripts/sanity_checks.py). This document is
+the flag reference none of those cover.
 
 ## Setup
 
@@ -192,7 +194,7 @@ always omnidirectional)
 | `--volume-format` | `csv` | Any of `csv ply npy las laz mesh` or `all` (= csv,ply,npy). `las`/`laz` need `laspy` (+`lazrs` for `.laz`); `mesh` writes the volume's **boundary surface** as a PLY triangle mesh (faces + edges, terrain-following) instead of voxel points, plus a 3D QC PNG |
 | `--mesh-style` | `blocky` | With `mesh`: `blocky` = exact voxel boundary (auditable — the mesh encloses identically n_voxels × voxel volume, self-checked); `smooth` = marching-cubes isosurface (presentation). Combined volume is meshed as the union (any-observer) shape; per-voxel counts stay in csv/las |
 
-**Domes** (experimental — see [the project guide](the project guide) Conventions)
+**Domes** (experimental — see [GSOC_WORK_PRODUCT.md §6](GSOC_WORK_PRODUCT.md#6-known-limitations))
 
 | Flag | Default | Meaning |
 |---|---|---|
@@ -773,8 +775,12 @@ out of git by design.
 
 ## Outputs
 
-See the project guide's [Data assets](the project guide#data-assets) table for the full list
-of where files land and what each one means.
+Each script writes to its `--out-dir` default, listed in the flag tables
+above. Inputs are read from the paths defined at the top of
+[`scripts/sanity_checks.py`](scripts/sanity_checks.py) (and
+[`scripts/aperture_registry.py`](scripts/aperture_registry.py) for the
+openings pipeline); running `sanity_checks.py` reports which of them are
+missing.
 
 ## Key conventions
 
@@ -782,7 +788,9 @@ of where files land and what each one means.
   baseline for late-antique Egyptians) — override with `--eye-height`.
 - All compute code must run unchanged on CUDA, MPS, and CPU — never hard-code
   a device.
-- **Git is user-managed** — scripts and assistants never run git commands.
+- **Git is user-managed** — no script runs git commands.
 
-See [the project guide](the project guide) for the complete conventions list and the project's
-validation philosophy.
+The reasoning behind these conventions is in
+[docs/CODE_WALKTHROUGH.md](docs/CODE_WALKTHROUGH.md#the-one-thing-to-keep-in-mind),
+and the project's validation philosophy in
+[GSOC_WORK_PRODUCT.md §5](GSOC_WORK_PRODUCT.md#5-how-it-is-validated).

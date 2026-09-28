@@ -2,8 +2,9 @@
 
 > A narrated tour of the viewshed half of LAMP: what each script does, *why* it
 > is built the way it is, and what would break if it were built otherwise.
-> Read [the project guide](../the project guide) for project scope and [PROGRESS.md](../PROGRESS.md)
-> for the running history; this document is the "how and why" of the code itself.
+> Read [GSOC_WORK_PRODUCT.md](../GSOC_WORK_PRODUCT.md) for project scope and
+> [PROGRESS.md](../PROGRESS.md) for the running history; this document is the
+> "how and why" of the code itself.
 >
 > Written so that no prior programming or GIS background is assumed. If a
 > paragraph leans on a term like "bilinear interpolation" or "CRS," it's
@@ -1374,7 +1375,7 @@ the three classic Möller–Trumbore terms become per-triangle constants
 computed once per chunk. Per-file bounding boxes let a query skip
 whole buildings its rays cannot reach; a 2D grid or BVH stays the
 profiling-gated next step if real chapel models ever make brute force
-slow (the project guide's long-standing note).
+slow (see [FUTURE_WORK.md](../FUTURE_WORK.md#not-on-this-list-deliberately)).
 
 **The many-observer path, and why it inverts those choices.**
 `visible_mask_multi` answers a whole bundle of (eye, target) rays from

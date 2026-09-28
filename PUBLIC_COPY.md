@@ -61,16 +61,17 @@ protecting nothing. Page references are kept for the same reason —
 anyone with their own copy of the report can verify any row.
 
 Run logs under `viewshed_runs/fabric_sweep_20260811/` had the three
-observer positions echoed in their headers; those coordinates are
-redacted in place and the logs are otherwise intact.
+observer positions echoed in their headers; those coordinates, and two
+machine-local paths, are redacted in place and the logs are otherwise
+intact.
 
 ## What is here
 
 - **All 41 Python modules** (`scripts/`, `blender/`) — the complete
   engine, aperture pipeline, statistical tests and report generators
-- **All documentation** — `the project guide`, `README.md`,
-  `docs/CODE_WALKTHROUGH.md`, `docs/DATA_PROVENANCE.md`, `PROGRESS.md`,
-  `FUTURE_WORK.md`, `GSOC_WORK_PRODUCT.md`
+- **All documentation** — `README.md`, `docs/CODE_WALKTHROUGH.md`,
+  `docs/DATA_PROVENANCE.md`, `PROGRESS.md`, `FUTURE_WORK.md`,
+  `GSOC_WORK_PRODUCT.md`
 - **All derived results in text form** — comparison reports, metrics
   CSVs, viewgraph edge tables, the intentionality results, regression
   hash manifests, run logs
@@ -92,10 +93,11 @@ dataset.
 
 **Scripts run but will not find their inputs** until the dataset is in
 place. The expected layout under `LAMP_DataStore/ElBagawat/` is
-documented in [`the project guide`](the project guide), and
+defined by the path constants at the top of
+[`scripts/sanity_checks.py`](scripts/sanity_checks.py), which will
+report exactly which inputs are missing, and
 [`docs/REMOTE_SETUP.md`](docs/REMOTE_SETUP.md) is a
-clone-to-running-pipeline walkthrough. `scripts/sanity_checks.py` will
-report exactly which inputs are missing.
+clone-to-running-pipeline walkthrough.
 
 **The core self-checks need no site data** and are the quickest way to
 confirm the engine works:
@@ -138,6 +140,6 @@ Filtered from the full working repository with:
 git filter-repo --invert-paths --paths-from-file <list>
 ```
 
-Commit history, authorship and dates are preserved — 30 commits, all
+Commit history, authorship and dates are preserved, and every commit is
 mine. Commit hashes differ from the private repository, because
 rewriting history necessarily rewrites them.

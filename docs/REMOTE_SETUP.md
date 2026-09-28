@@ -85,6 +85,11 @@ generated) a `DEMWithBuildings-0.4m-*.tif`. If this comes back empty or
 at wherever the datastore root actually lives before continuing; every step
 below will fail confusingly otherwise.
 
+The datastore also needs a `data_paths.json` at `LAMP_DataStore\ElBagawat\`,
+naming the dataset's own files (the code deliberately doesn't). Copy it from
+the datastore on the Mac, or fill in the repo's `data_paths.example.json`;
+§5 reports any key left unset.
+
 ## 3. Install `uv` and Python 3.13
 
 The project's environment is managed with **uv**, not a system Python
@@ -168,10 +173,10 @@ available if a future script needs it.
 Read the output, not just the exit code — this is the script that would
 catch a bad datastore link, a CRS mismatch, or a stale legacy DEM before
 anything else runs. `[WARN]` lines are expected and informational (e.g. the
-legacy `<legacy DEM with buildings>.tif` datum-mismatch warning, and the viewpoints file's
+legacy buildings-DEM datum-mismatch warning, and the viewpoints file's
 CRS being lat/lon rather than UTM — both already understood and explained in
 [CODE_WALKTHROUGH.md §1](CODE_WALKTHROUGH.md#1-sanity_checkspy--the-data-contract)).
-`[FAIL]` lines mean stop and fix the datastore link or file paths before
+`[FAIL]` lines mean stop and fix the datastore link or `data_paths.json` before
 proceeding.
 
 ## Running the full pipeline

@@ -30,6 +30,14 @@ Removed everywhere:
 The bulk dataset was never in the repository at all — `LAMP_DataStore/`
 has always been gitignored.
 
+The dataset's own **file names** are not here either. Scripts read them
+from a `data_paths.json` kept inside the datastore, whose keys are listed
+in [`data_paths.example.json`](data_paths.example.json); the code and docs
+describe each input rather than naming it, and earlier commits were
+rewritten to match. Names that remain are the datastore's folder layout,
+files the scripts themselves generate, and the files of the Brief 2
+application package in `Task_2/`.
+
 ### Geodata hiding in text files
 
 Filtering by file extension catches `.gpkg` and misses the same data
@@ -61,9 +69,9 @@ protecting nothing. Page references are kept for the same reason —
 anyone with their own copy of the report can verify any row.
 
 Run logs under `viewshed_runs/fabric_sweep_20260811/` had the three
-observer positions echoed in their headers; those coordinates, and two
-machine-local paths, are redacted in place and the logs are otherwise
-intact.
+observer positions echoed in their headers; those coordinates, two
+machine-local paths and an input file name are redacted in place, and
+the logs are otherwise intact.
 
 ## What is here
 
@@ -94,8 +102,9 @@ dataset.
 **Scripts run but will not find their inputs** until the dataset is in
 place. The expected layout under `LAMP_DataStore/ElBagawat/` is
 defined by the path constants at the top of
-[`scripts/sanity_checks.py`](scripts/sanity_checks.py), which will
-report exactly which inputs are missing, and
+[`scripts/sanity_checks.py`](scripts/sanity_checks.py), with the file
+names in `data_paths.json` as above; `sanity_checks.py` will report
+exactly which inputs are missing, and
 [`docs/REMOTE_SETUP.md`](docs/REMOTE_SETUP.md) is a
 clone-to-running-pipeline walkthrough.
 

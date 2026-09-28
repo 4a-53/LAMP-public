@@ -30,3 +30,6 @@ __pycache__/
 *.las
 *.laz
 *.png
+
+# The dataset's own file names; kept in the datastore, never the repo
+data_paths.json

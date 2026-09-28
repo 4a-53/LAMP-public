@@ -49,11 +49,11 @@ from scipy import ndimage
 from shapely.geometry import Point
 from shapely.ops import polylabel
 
-from sanity_checks import ROOT, DEM_BASE_04, FOOTPRINTS, check, warn, failures
+from sanity_checks import (ROOT, DEM_BASE_04, FOOTPRINTS, ORTHO_04,
+                           REPORT_XLSX, check, warn, failures)
 
-ORTHO = ROOT / ("100_Data/150_DigitalElevationModel/Generated_DEMs/"
-                "Current_DEM/<orthophoto, 0.4 m>.tif")
-XLSX = ROOT / "100_Data/120_SiteReport/<excavation-report spreadsheet>.xlsx"
+ORTHO = ORTHO_04
+XLSX = REPORT_XLSX
 
 DOMED_TYPES = {4, 5, 6, 7, 9}     # site report Ch. III (pp. 20-23 of the PDF)
 # Types 1/2/3 (flat, wooden-beam) and 8/10 (composite/barrel-vaulted) are the

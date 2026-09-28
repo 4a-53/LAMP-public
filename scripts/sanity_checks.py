@@ -10,6 +10,7 @@ Run:  .venv/bin/python scripts/sanity_checks.py
 Exits nonzero if any check FAILs. WARNs don't fail the run.
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -21,13 +22,35 @@ from rasterio.features import rasterize
 
 ROOT = Path(__file__).resolve().parent.parent / "LAMP_DataStore" / "ElBagawat"
 
-DEM_BUILDINGS = ROOT / "200_Projects/220_BuildingsToDEM/<legacy DEM with buildings>.tif"
-DEM_BASE_04 = ROOT / ("100_Data/150_DigitalElevationModel/Generated_DEMs/"
-                      "Current_DEM/<base DEM, 0.4 m>.tif")
-DEM_BASE_05 = ROOT / ("100_Data/150_DigitalElevationModel/Generated_DEMs/"
-                      "Current_DEM/<base DEM, 0.5 m>.tif")
-FOOTPRINTS = ROOT / ("100_Data/130_BuildingFootprintsVectorData/"
-                     "BuildingTracesCurrent/<building footprints>.shp")
+# The dataset's own file names are not the project's to publish, so they
+# live in data_paths.json inside the datastore (gitignored; it travels
+# with the data) rather than in the code. data_paths.example.json at the
+# repo root lists the keys. A missing file or key resolves to a path that
+# cannot exist, so importing never fails and main() reports what is unset.
+DATA_PATHS = ROOT / "data_paths.json"
+DATA_KEYS = ("dem_buildings_legacy", "dem_base_04", "dem_base_05",
+             "ortho_04", "footprints", "report_xlsx", "report_pdf",
+             "site_cad_dwg")
+try:
+    _DATA_PATHS = json.loads(DATA_PATHS.read_text())
+except (OSError, ValueError):
+    _DATA_PATHS = {}
+
+
+def data_path(key):
+    """Datastore path for `key`, read from data_paths.json."""
+    rel = _DATA_PATHS.get(key)
+    return ROOT / rel if rel else ROOT / "unset_in_data_paths_json" / key
+
+
+DEM_BUILDINGS = data_path("dem_buildings_legacy")
+DEM_BASE_04 = data_path("dem_base_04")
+DEM_BASE_05 = data_path("dem_base_05")
+ORTHO_04 = data_path("ortho_04")
+FOOTPRINTS = data_path("footprints")
+REPORT_XLSX = data_path("report_xlsx")
+REPORT_PDF = data_path("report_pdf")
+SITE_CAD_DWG = data_path("site_cad_dwg")
 # newest regenerated 0.4m DEM-with-buildings, if built (see
 # build_dem_with_buildings.py)
 DEM_REGEN = max(
@@ -69,6 +92,17 @@ def describe_raster(path):
 
 def main():
     print("=" * 70)
+    print("DATA PATHS")
+    print("=" * 70)
+    present = DATA_PATHS.exists()
+    check(present, "data_paths.json present",
+          str(DATA_PATHS) if present else
+          f"copy data_paths.example.json to {DATA_PATHS} and fill it in")
+    if present:
+        for key in DATA_KEYS:
+            check(key in _DATA_PATHS, f"data_paths.json sets {key}")
+
+    print("\n" + "=" * 70)
     print("RASTERS")
     print("=" * 70)
     rasters = {}
@@ -78,6 +112,10 @@ def main():
         if not check(path.exists(), f"{name} exists", str(path)):
             continue
         rasters[name] = describe_raster(path)
+    if not {"buildings", "base04"} <= rasters.keys():
+        # Everything below opens these two; stop with the list of what
+        # is missing rather than a traceback on the first open.
+        report()
 
     print("\n" + "=" * 70)
     print("CROSS-RASTER CONSISTENCY")
@@ -107,7 +145,7 @@ def main():
         b, d = rasters["buildings"], rasters["base04"]
         same_res = np.allclose(b["res"], d["res"])
         if same_res and b["transform"].almost_equals(d["transform"]):
-            print("  [INFO] legacy buildings DEM is on the same grid as the 0.4m DEM")
+            print("  [INFO] legacy buildings DEM is on the 0.4m DEM grid")
         else:
             warn("legacy buildings DEM grid differs from current 0.4m DEM",
                  f"res {b['res']} vs {d['res']} — it was built from an older/"
@@ -121,7 +159,7 @@ def main():
         check(ovl_ok, "buildings DEM overlaps base04 extent")
 
     print("\n" + "=" * 70)
-    print("HEIGHT DIFFERENTIAL (legacy buildings DEM − base DEM, on buildings grid)")
+    print("HEIGHT DIFFERENTIAL (legacy buildings DEM − base DEM)")
     print("=" * 70)
     with rasterio.open(DEM_BUILDINGS) as bsrc, rasterio.open(DEM_BASE_04) as dsrc:
         bld = bsrc.read(1, masked=True).filled(np.nan).astype("float64")
@@ -216,6 +254,11 @@ def main():
         check(ok, f"{sample.name} loads, CRS matches",
               f"{len(g)} feature(s), {g.crs}")
 
+    report()
+
+
+def report():
+    """Print the warning/failure summary; exit 1 on any failure."""
     print("\n" + "=" * 70)
     if warnings:
         print(f"WARNINGS ({len(warnings)}):")

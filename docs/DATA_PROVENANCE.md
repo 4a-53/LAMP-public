@@ -11,7 +11,7 @@ Covers **263 chapels** and **469 openings**. Every number in the visibility resu
 | Excavation report (Fakhry), 200 page scans | entrance direction in words; presence of niches/apses/windows and which wall; chapel typology; painted scene names | any position along a wall; almost all dimensions |
 | Report plates (plan + elevation pairs) | opening **heights** (sill/head), read by eye | nothing yet — see gap G2 |
 | `BaseSiteCAD` DXF (7 plots) | door width and position, from LW2 threshold marks | only the chapels those plots cover |
-| `<excavation-report spreadsheet>.xlsx` | typology; a few entrance directions | dimensions |
+| Excavation-report spreadsheet | typology; a few entrance directions | dimensions |
 | Orthophoto | dome presence/radius by bright-blob | anything on a vertical surface (near-nadir) |
 | DEM pair (with-buildings − bare) | building height, wall top, floor datum | anything about openings |
 | Site plan / `Site_Plan.pdf` | **nothing usable** — see gap G6 | door positions (proven misleading) |
@@ -31,7 +31,7 @@ Covers **263 chapels** and **469 openings**. Every number in the visibility resu
 | `report` | 380 | 81.0% | Excavation report, read by OCR then confirmed against the page scan |
 | `derived` | 84 | 17.9% | Inferred by rule from other registry fields; no document states it |
 | `cad` | 3 | 0.6% | `BaseSiteCAD` DXF plots — threshold marks on the LW2 layer, measured |
-| `xlsx` | 2 | 0.4% | `<excavation-report spreadsheet>.xlsx`, the pre-existing spreadsheet digest of the same report |
+| `xlsx` | 2 | 0.4% | The excavation-report spreadsheet, a pre-existing digest of the same report |
 
 **source_dims — provenance of width/sill/head**
 
@@ -75,7 +75,7 @@ The measured rows are chapels 23, 24, 25 — all three from CAD threshold marks,
 | value | rows | share | what it rests on |
 | --- | --- | --- | --- |
 | `report` | 192 | 99.0% | Excavation report, read by OCR then confirmed against the page scan |
-| `xlsx` | 2 | 1.0% | `<excavation-report spreadsheet>.xlsx`, the pre-existing spreadsheet digest of the same report |
+| `xlsx` | 2 | 1.0% | The excavation-report spreadsheet, a pre-existing digest of the same report |
 
 **direction as stated**
 

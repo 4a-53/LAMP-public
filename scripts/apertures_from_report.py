@@ -42,13 +42,13 @@ import geopandas as gpd
 import numpy as np
 import pandas as pd
 
-from sanity_checks import FOOTPRINTS, ROOT, check, warn, failures
+from sanity_checks import FOOTPRINTS, REPORT_XLSX, check, warn, failures
 from aperture_registry import (APERTURES_DIR, INVENTORY, REGISTRY_COLS,
                                COMPASS, DOOR_WIDTH, DOOR_HEAD, DOOR_SILL,
                                canonical_walls, wall_fields,
                                wall_for_azimuth)
 
-XLSX = ROOT / "100_Data/120_SiteReport/<excavation-report spreadsheet>.xlsx"
+XLSX = REPORT_XLSX
 DIRECTIONS = APERTURES_DIR / "entrance_directions.csv"
 
 

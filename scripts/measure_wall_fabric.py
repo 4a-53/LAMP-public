@@ -81,7 +81,8 @@ from rasterio.transform import from_origin
 from scipy.ndimage import distance_transform_edt, maximum_filter
 from shapely.geometry import Polygon
 
-from sanity_checks import FOOTPRINTS, ROOT, check, warn, failures
+from sanity_checks import (FOOTPRINTS, REPORT_XLSX, ROOT, check, warn,
+                           failures)
 from aperture_registry import APERTURES_DIR
 from extract_dxf_plans import read_dxf_entities
 
@@ -90,8 +91,7 @@ Image.MAX_IMAGE_PIXELS = None
 CAD_DIR = ROOT / "100_Data/120_SiteReport/BaseSiteCAD"
 PLATES = APERTURES_DIR / "report_plates"
 PLATE_INDEX = APERTURES_DIR / "plate_figures/plate_figures.csv"
-XLSX = (ROOT / "100_Data/120_SiteReport"
-        / "<excavation-report spreadsheet>.xlsx")
+XLSX = REPORT_XLSX
 
 FABRIC_COLS = ["ID", "type", "wall_thickness_m", "thickness_source",
                "thickness_conf", "n_probes", "spread_m", "notes"]

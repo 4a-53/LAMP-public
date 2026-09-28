@@ -1,6 +1,6 @@
 """Extract measured door positions from the site CAD drawing.
 
-The full-site drawing (`BaseSiteCAD/<site CAD drawing>.dwg`) is binary
+The full-site drawing (`site_cad_dwg` in data_paths.json) is binary
 DWG; `dwg2dxf` (LibreDWG, a one-off dev tool) converts it, after which
 its layers survive — and the layers are the point. The PDF print of
 this same drawing flattens everything to one grey pen, which is why
@@ -39,13 +39,12 @@ import geopandas as gpd
 import numpy as np
 from shapely.geometry import Point
 
-from sanity_checks import ROOT, FOOTPRINTS, check, warn, failures
+from sanity_checks import FOOTPRINTS, SITE_CAD_DWG, check, warn, failures
 from aperture_registry import (APERTURES_DIR, REGISTRY_COLS, DOOR_HEAD,
                                DOOR_SILL, canonical_walls, wall_fields)
 from extract_dxf_plans import read_dxf_entities
 
-SITE_DWG = (ROOT / "100_Data/120_SiteReport/BaseSiteCAD/"
-            "<site CAD drawing>.dwg")
+SITE_DWG = SITE_CAD_DWG
 
 
 def to_dxf(dwg, out_dir):

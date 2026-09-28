@@ -5,7 +5,7 @@
 never generated at any other resolution — there is no higher-res
 version of that particular raster to crop. The canonical 0.4 m
 ray-casting surface (`DEMWithBuildings-0.4m-*.tif`) and its bare-earth
-counterpart (`<base DEM, 0.4 m>.tif`) are a
+counterpart (the 0.4 m base DEM, `dem_base_04`) are a
 *different* raster pair, generated together and pixel-identical to
 each other (verified: same shape/transform/CRS). This script crops
 that pair, plus the matching orthophoto, to the same real-world extent
@@ -24,19 +24,15 @@ from pathlib import Path
 import rasterio
 from rasterio.windows import from_bounds
 
-from sanity_checks import check, failures
+from sanity_checks import DEM_BASE_04, ORTHO_04, check, failures
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 TASK2 = PROJECT_ROOT / "Task_2"
 DATASTORE = PROJECT_ROOT / "LAMP_DataStore/ElBagawat"
 DEM_04M = (DATASTORE / "200_Projects/220_BuildingsToDEM"
            / "DEMWithBuildings-0.4m-20260612.tif")
-BARE_04M = (DATASTORE / "100_Data/150_DigitalElevationModel"
-            / "Generated_DEMs/Current_DEM"
-            / "<base DEM, 0.4 m>.tif")
-ORTHO_04M = (DATASTORE / "100_Data/150_DigitalElevationModel"
-             / "Generated_DEMs/Current_DEM"
-             / "<orthophoto, 0.4 m>.tif")
+BARE_04M = DEM_BASE_04
+ORTHO_04M = ORTHO_04
 
 
 def crop_to(src_path, roi_bounds, out_path):

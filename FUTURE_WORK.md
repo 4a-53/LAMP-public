@@ -140,28 +140,29 @@ selection.
 
 ## 9. Newer satellite imagery — confirm the sensor, then decide
 
-`100_Data/140_SAR_Imagery/<2026 delivery>/` (remote machine only; the
-local folder is an empty stub) holds a delivery received May 2026 that
-mentors describe as PNEO stereo from the imagery vendor. The
-folder name records the **purchase** year, not the acquisition year,
-and its three products do not all match that description:
+A newer imagery delivery, received May 2026, sits in its own subfolder
+of `100_Data/140_SAR_Imagery/` (remote machine only; the local folder is
+an empty stub). Mentors describe it as Pléiades Neo stereo. The folder
+name records the **purchase** year, not the acquisition year, and its
+three products do not all match that description:
 
-| Subfolder | Product prefix | Acquired |
+| Product | Sensor, from the product prefix | Acquired |
 |---|---|---|
-| `<product A folder>` | `<product A prefix>` | 2026-01-01 |
-| `<product B folder>` | `<product B prefix>` | 2023-04-03 |
-| `<product C folder>` | `<product C prefix>` | 2023-04-03 |
+| A | not identifiable from the prefix | 2026-01-01 |
+| B | WorldView-1 stereo source data | 2023-04-03 |
+| C | WorldView-1 50 cm pan ortho scene | 2023-04-03 |
 
 Two of the three are WorldView-1 — a Maxar sensor at the same
 resolution class as the GeoEye/WV2 pairs the current DEMs already came
 from, so not an upgrade. Only product A is recent enough to be the new
-delivery, and product A is **not** a sensor code identifiable from a
-directory listing. Each product ships its own `README.TXT`/`.XML`/
-`.IMD` alongside; read those first — they state sensor and product type
+delivery, and its sensor is **not** identifiable from a directory
+listing. Each product ships its own `README.TXT`/`.XML`/`.IMD`
+alongside; read those first — they state sensor and product type
 outright, and settle this in minutes.
 
 **If product A is Pléiades Neo** (~30 cm pan), a DEM regeneration could
-sharpen the ray-casting surface. `<DEM processing notes>` has the full recipe
+sharpen the ray-casting surface. The DEM processing notes in
+`100_Data/150_DigitalElevationModel/` have the full recipe
 (Ames Stereo Pipeline: `parallel_stereo` -> `point2dem` ->
 `dem_mosaic`), so the path is known rather than exploratory. It is
 still a multi-day run on the remote box, and it **replaces the surface

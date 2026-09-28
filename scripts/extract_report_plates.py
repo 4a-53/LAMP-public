@@ -30,9 +30,7 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw
 
-from sanity_checks import ROOT, check, failures
-
-REPORT_PDF = ROOT / "100_Data/120_SiteReport/<excavation-report scan>.pdf"
+from sanity_checks import ROOT, REPORT_PDF, check, failures
 OUT_DIR = ROOT / "200_Projects/250_Apertures/report_plates"
 
 

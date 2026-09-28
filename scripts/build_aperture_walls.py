@@ -43,7 +43,7 @@ import numpy as np
 import rasterio
 
 from sanity_checks import (FOOTPRINTS, DEM_BASE_04, DOME_INVENTORY,
-                           ROOT, check, warn, failures)
+                           ORTHO_04, check, warn, failures)
 from aperture_registry import (APERTURES_DIR, INVENTORY, BUILDING_FABRIC,
                                DOOR_WIDTH, DOOR_HEAD, DOOR_SILL,
                                canonical_walls, largest_poly, resolve_wall,
@@ -52,8 +52,7 @@ from aperture_registry import (APERTURES_DIR, INVENTORY, BUILDING_FABRIC,
 from make_test_building import rect, dome
 from volume_mesh import load_obj, check_soup, write_obj
 
-ORTHO = (ROOT / "100_Data/150_DigitalElevationModel/Generated_DEMs/"
-         "Current_DEM/<orthophoto, 0.4 m>.tif")
+ORTHO = ORTHO_04
 DOME_SINK = 0.35          # dome centre sits this fraction of r below
                           # the roofline (the dome layer's convention)
 OPENING_MODES = ("none", "doors", "perforating", "all")

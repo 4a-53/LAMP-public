@@ -25,7 +25,7 @@ import collections
 import csv
 from pathlib import Path
 
-from sanity_checks import check, warn, failures
+from sanity_checks import FOOTPRINTS, check, warn, failures
 
 ROOT = Path(__file__).resolve().parents[1] / "LAMP_DataStore/ElBagawat"
 APERTURES = ROOT / "200_Projects/250_Apertures"
@@ -37,8 +37,6 @@ DIRECTIONS = APERTURES / "entrance_directions.csv"
 PAINTINGS = APERTURES / "painting_inventory.csv"
 TARGETS = APERTURES / "target_inventory.csv"
 DOMES = DEM_DIR / "dome_inventory.csv"
-FOOTPRINTS = (ROOT / "100_Data/130_BuildingFootprintsVectorData"
-              / "BuildingTracesCurrent/<building footprints>.shp")
 
 # What each provenance token in the registries actually rests on. Kept
 # here rather than in the document template so an unrecognised token
@@ -46,8 +44,8 @@ FOOTPRINTS = (ROOT / "100_Data/130_BuildingFootprintsVectorData"
 TOKENS = {
     "report": ("Excavation report, read by OCR then confirmed against "
                "the page scan"),
-    "xlsx": ("`<excavation-report spreadsheet>.xlsx`, the "
-             "pre-existing spreadsheet digest of the same report"),
+    "xlsx": ("The excavation-report spreadsheet, a pre-existing "
+             "digest of the same report"),
     "cad": ("`BaseSiteCAD` DXF plots — threshold marks on the LW2 "
             "layer, measured"),
     "derived": ("Inferred by rule from other registry fields; no "
@@ -254,7 +252,7 @@ def build_report(ap, fab, dirs, dome, paint, tgt, all_ids, chapel_rows):
          "(sill/head), read by eye | nothing yet — see gap G2 |",
          "| `BaseSiteCAD` DXF (7 plots) | door width and position, from "
          "LW2 threshold marks | only the chapels those plots cover |",
-         "| `<excavation-report spreadsheet>.xlsx` | typology; a "
+         "| Excavation-report spreadsheet | typology; a "
          "few entrance directions | dimensions |",
          "| Orthophoto | dome presence/radius by bright-blob | anything "
          "on a vertical surface (near-nadir) |",

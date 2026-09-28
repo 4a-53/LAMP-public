@@ -164,6 +164,17 @@ it will just produce a *plausible-looking wrong answer*. The cheapest place to
 catch that is up front, with assertions, not three scripts downstream when a
 viewshed looks subtly off.
 
+**Where the paths come from.** The folder layout under
+`LAMP_DataStore/ElBagawat/` is spelled out in the constants at the top of the
+file, but the dataset's own file names are not: they are the lab's, not the
+project's to publish, so `data_path(key)` reads them from a `data_paths.json`
+kept inside the datastore (gitignored, so it travels with the data rather than
+the code). `data_paths.example.json` at the repo root lists the keys. A
+missing file or key resolves to a path that cannot exist rather than raising,
+so importing a script never fails on a machine without the data — the
+self-tests rely on that — and the first section of the report names whatever
+is unset.
+
 **The `check`/`warn` vocabulary — the project's whole testing idiom, in full:**
 
 ```python
@@ -205,8 +216,8 @@ unlikely in normal command-line use, but possible from a notebook — stale
 failures from the first run would carry into the second.)
 
 **The decision this script forced.** It contains the check that killed the legacy
-DEM. `<legacy DEM with buildings>.tif` looked usable, but differencing it against the base DEM
-revealed the off-footprint median was *not* zero:
+DEM. The legacy buildings DEM looked usable, but differencing it against the
+base DEM revealed the off-footprint median was *not* zero:
 
 ```python
 offset = np.median(off)

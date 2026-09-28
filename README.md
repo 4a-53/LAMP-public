@@ -5,7 +5,8 @@ Practical "how to run this" reference for the viewshed/visibility half of LAMP
 [GSOC_WORK_PRODUCT.md](GSOC_WORK_PRODUCT.md); for *why* the engine is built
 the way it is, see [docs/CODE_WALKTHROUGH.md](docs/CODE_WALKTHROUGH.md). The
 input files each script expects are defined by the path constants at the top
-of [`scripts/sanity_checks.py`](scripts/sanity_checks.py). This document is
+of [`scripts/sanity_checks.py`](scripts/sanity_checks.py), with the dataset's
+own file names read from `data_paths.json` (see Setup). This document is
 the flag reference none of those cover.
 
 ## Setup
@@ -18,6 +19,11 @@ uv pip install --python .venv -r requirements.txt
 Local environment: Apple Silicon Mac (MPS). Heavy ray-casting and the SAR
 imagery subset live on a remote CUDA machine. All compute code is
 device-agnostic (CUDA → MPS → CPU). The local data subset lives in `LAMP_DataStore/ElBagawat/`.
+The dataset's own file names are not in the code: copy
+[`data_paths.example.json`](data_paths.example.json) to
+`LAMP_DataStore/ElBagawat/data_paths.json` and fill in each key (paths
+relative to that folder). `scripts/sanity_checks.py` reports any key left
+unset.
 For a from-scratch clone-to-running-pipeline walkthrough on the remote
 machine, see [docs/REMOTE_SETUP.md](docs/REMOTE_SETUP.md).
 
@@ -104,7 +110,7 @@ onto the base DEM.
 | Flag | Default | Meaning |
 |---|---|---|
 | `--base-dem` | `DEM_BASE_04` (0.4 m current DEM) | Bare-earth DEM to extrude onto |
-| `--footprints` | `<building footprints>.shp` | Footprint polygons with the height field |
+| `--footprints` | `footprints` in `data_paths.json` | Footprint polygons with the height field |
 | `--height-field` | `Elevation` | Footprint field holding building height (m) |
 | `--out` | `DEMWithBuildings-0.4m-<today>.tif` | Output raster path |
 | `--all-touched` | off | Burn every pixel touched by a footprint, not just center-covered ones (dilates thin walls by up to 1 px) |
@@ -117,13 +123,13 @@ onto the base DEM.
 
 Builds the dome **visualization** layer: joins the excavation-report chapel
 typology onto the footprints (domed types 4/5/6/7/9; legend in
-`<excavation-report scan>.pdf` pp. 20–23), measures each dome's center/radius
+the excavation-report scan, PDF pp. 20–23), measures each dome's center/radius
 from the orthophoto, and writes an editable inventory + QGIS-ready point
 layers.
 
 | Flag | Default | Meaning |
 |---|---|---|
-| `--footprints` | `<building footprints>.shp` | Footprint polygons |
+| `--footprints` | `footprints` in `data_paths.json` | Footprint polygons |
 | `--xlsx` | excavation report xlsx | Source of the `Type` column |
 | `--ortho` | 0.4 m orthophoto | Grayscale imagery used to measure domes |
 | `--dem` | `DEM_BASE_04` | Bare-earth DEM (roof-height sampling) |
@@ -155,7 +161,7 @@ heightfield. Flags are grouped by purpose below.
 | Flag | Default | Meaning |
 |---|---|---|
 | `--dem` | `DEM_REGEN` (newest `DEMWithBuildings-0.4m-*.tif`) | Ray-casting surface |
-| `--footprints` | `<building footprints>.shp` | Building polygons (graph edges, QC overlays) |
+| `--footprints` | `footprints` in `data_paths.json` | Building polygons (graph edges, QC overlays) |
 | `--observers` | `Marks_Brief2.shp` | Observer point file |
 | `--out-dir` | `200_Projects/220_BuildingsToDEM/` | Output directory |
 | `--margin` | `60.0` | Core-window margin (m); ignored when `--radius` is set |
@@ -344,8 +350,8 @@ off the plate's dimension lines → edit the registry row
 descriptions start around p.88.
 
 **`extract_site_cad.py`** is the *measured* aperture source, and takes
-precedence where it has data. It converts the binary
-`<site CAD drawing>.dwg` with `dwg2dxf` (LibreDWG — a one-off dev tool,
+precedence where it has data. It converts the binary site CAD drawing
+(`site_cad_dwg`) with `dwg2dxf` (LibreDWG — a one-off dev tool,
 `brew install libredwg`), which preserves the layers the PDF print
 destroys. Georeferences on 274 `NUMBERING` labels (0.93 m median
 residual) and reads door threshold marks off the `LW2` layer, giving a
@@ -779,8 +785,9 @@ Each script writes to its `--out-dir` default, listed in the flag tables
 above. Inputs are read from the paths defined at the top of
 [`scripts/sanity_checks.py`](scripts/sanity_checks.py) (and
 [`scripts/aperture_registry.py`](scripts/aperture_registry.py) for the
-openings pipeline); running `sanity_checks.py` reports which of them are
-missing.
+openings pipeline), with the dataset's own file names taken from
+`data_paths.json` (see Setup); running `sanity_checks.py` reports which
+of them are missing.
 
 ## Key conventions
 

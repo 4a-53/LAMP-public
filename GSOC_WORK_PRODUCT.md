@@ -415,11 +415,14 @@ uv pip install --python .venv -r requirements.txt
 ```
 
 The ~200 GB dataset is not in this repository. A working subset lives
-under `LAMP_DataStore/ElBagawat/` (gitignored); the layout it mirrors is
+under `LAMP_DataStore/ElBagawat/` (gitignored). The layout it mirrors is
 defined by the path constants at the top of
-[`scripts/sanity_checks.py`](scripts/sanity_checks.py), which reports any
-input that is missing, and [`docs/REMOTE_SETUP.md`](docs/REMOTE_SETUP.md)
-is a clone-to-running walkthrough for the CUDA workstation.
+[`scripts/sanity_checks.py`](scripts/sanity_checks.py), and the dataset's
+own file names are read from a `data_paths.json` kept inside the
+datastore (template: [`data_paths.example.json`](data_paths.example.json));
+`sanity_checks.py` reports any input that is missing.
+[`docs/REMOTE_SETUP.md`](docs/REMOTE_SETUP.md) is a clone-to-running
+walkthrough for the CUDA workstation.
 
 - [`README.md`](README.md) — flag reference for all 39 scripts
 - [`docs/CODE_WALKTHROUGH.md`](docs/CODE_WALKTHROUGH.md) — narrated

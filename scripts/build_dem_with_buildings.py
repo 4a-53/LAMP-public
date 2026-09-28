@@ -1,11 +1,11 @@
 """Regenerate the building-extruded DEM at the current base-DEM resolution.
 
 Implements the recipe documented in 220_BuildingsToDEM/README.md against the
-*current* 0.4 m DEM (the legacy <legacy DEM with buildings>.tif is 1.5 m with a ~78 m
+*current* 0.4 m DEM (the legacy buildings DEM is 1.5 m with a ~78 m
 vertical-reference offset and must not be used for heights):
 
-  1. rasterize footprint heights (<building footprints> 'Elevation' field) onto the
-     base-DEM grid, 0 outside footprints
+  1. rasterize footprint heights (the footprint layer's 'Elevation'
+     field) onto the base-DEM grid, 0 outside footprints
   2. add to the base DEM (nodata preserved, never invented)
   3. self-verify the written file and emit QC images for visual audit
 
